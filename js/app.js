@@ -1,15 +1,16 @@
 $(document).ready(function() {
 	var game = {
+
+		// Variables used through out the game
 		cards: $('li.card').map(function() {return $(this).html()}),
 		numberOfMoves: 0,
 		timer: new Timer(),
-		init: function() {
-			// This sets the number of moves to 0 in the score panel
-			$('.moves').html(game.numberOfMoves);
 
+		init: function() {
+			$('.moves').html(game.numberOfMoves); // This sets the number of moves to 0 in the score panel
 			game.shuffle(game.cards);
-			
 		},
+		// This function shuffles the cards
 		shuffle: function(array) {
 			var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -22,24 +23,27 @@ $(document).ready(function() {
 			}
 			game.assignCards();
 		},
+		// This function sets the cards back to their place
 		assignCards: function() {
 			$('li.card').each(function(index) {
-				$(this).html(game.cards[index]);	
+				$(this).html(game.cards[index]);
 			})
 			game.clickHandlers();
 			game.timerFunction();
-			$('#repeat-button').on('click', function() {
-				restartAfterWin();
-			});
+			// $('#repeat-button').on('click', function() {
+			// 	restartAfterWin();
+			// });
 		},
+		// This lets the cards be clicked
 		clickHandlers: function() {
 			$('li.card').on('click', function() {
 				$(this).addClass('open show');
 				game.movesCount();
 				game.starsCount();
 				game.checkMatch();
-			});			
+			});
 		},
+		// Checks if the two cards selected match
 		checkMatch: function() {
 			if ($('li.open').length === 2) {
 				if (($('li.open').first().html()) === ($('li.open').last().html())) {
@@ -52,17 +56,18 @@ $(document).ready(function() {
 				}
 			}
 		},
+		//Checks if the player has matched all the cards
 		checkWin: function() {
 			if ($('li.match').length === 16) {
 				game.timer.stop();
 				game.activateOverlay();
 			}
 		},
+		// Sets the information to be displayed in a modal when the player has won
 		activateOverlay: function() {
 			el = document.getElementById('overlay');
 			var starsGotten = $('ul.stars').html();
 			var timeToFinish = $('.values').text();
-
 			$('#p-win').html('You won with '+game.numberOfMoves+' moves!');
 			$('<div>You got <ul class=\'stars\'>'+starsGotten+'</ul> stars!</div>').insertBefore('#restart-button');
 			$('<div>In '+timeToFinish+'</div>').insertBefore('#restart-button');
@@ -71,6 +76,7 @@ $(document).ready(function() {
 				game.restartAfterWin();
 			});
 		},
+		// Changes the stars according the the number of moves
 		starsCount: function() {
 			if (game.numberOfMoves === 26) {
 				$('#first-star').removeClass('fa-star').addClass('fa-star-o');
@@ -80,10 +86,12 @@ $(document).ready(function() {
 				$('#third-star').removeClass('fa-star').addClass('fa-star-o');
 			}
 		},
+		// Counts the number of moves done by the player
 		movesCount: function() {
 			game.numberOfMoves += 1
 			$('.moves').html(game.numberOfMoves);
 		},
+		// Manages the timer
 		timerFunction: function() { 
 			if (game.numberOfMoves === 0) {
 				$('.deck').on('click', function () {
@@ -91,29 +99,29 @@ $(document).ready(function() {
 				});
 			}
 			game.timer.addEventListener('secondsUpdated', function (e) {
-			    $('#chronoExample .values').html(game.timer.getTimeValues().toString());
+			    $('.chronometer .values').html(game.timer.getTimeValues().toString());
 			});
 			game.timer.addEventListener('started', function (e) {
-			    $('#chronoExample .values').html(game.timer.getTimeValues().toString());
+			    $('.chronometer .values').html(game.timer.getTimeValues().toString());
 			});
 		},
+		// Restarts the game
 		restartAfterWin: function() {
 			el = document.getElementById('overlay');
 			$('li.card').attr('class', 'card');
 			$('#first-star, #second-star, #third-star').attr('class', 'fa fa-star');
-			
 			if (el.style.visibility == 'visible') {
 				el.style.visibility = 'hidden';
 			}
 			$('.moves').html(game.numberOfMoves = 0);
-			$('.values').text('00:00:00');
+			// $('.values').text('00:00:00');
 		}
-	}
+	};
 	game.init();
 });
 
-
-
+// TODO: Change variable declaration with const ?
+// TODO: Are these function expressions or declarations ?
 
 
 
