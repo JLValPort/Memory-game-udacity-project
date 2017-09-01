@@ -95,11 +95,10 @@ $(document).ready(function() {
 		},
 		// Manages the timer
 		timerFunction: function() { 
-			if (game.numberOfMoves === 0) {
-				$('.deck').on('click', function () {
-				    game.timer.start();
-				});
-			}
+			$('.deck').on('click', function () {
+			    game.timer.start();
+			    $(this).off('click');
+			});
 			game.timer.addEventListener('secondsUpdated', function (e) {
 			    $('.chronometer .values').html(game.timer.getTimeValues().toString());
 			});
@@ -117,6 +116,7 @@ $(document).ready(function() {
 			$('.values').text('00:00:00');
 			game.shuffle(game.cards);
 			game.assignCards();
+			game.timerFunction();
 			if (el.style.visibility == 'visible') {
 				el.style.visibility = 'hidden';
 			}
