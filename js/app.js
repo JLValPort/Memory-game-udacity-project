@@ -9,6 +9,9 @@ $(document).ready(function() {
 		init: function() {
 			$('.moves').html(game.numberOfMoves); // This sets the number of moves to 0 in the score panel
 			game.shuffle(game.cards);
+			game.assignCards();
+			game.clickHandlers();
+			game.timerFunction();
 		},
 		// This function shuffles the cards
 		shuffle: function(array) {
@@ -21,18 +24,15 @@ $(document).ready(function() {
 				array[currentIndex] = array[randomIndex];
 				array[randomIndex] = temporaryValue;
 			}
-			game.assignCards();
 		},
 		// This function sets the cards back to their place
 		assignCards: function() {
 			$('li.card').each(function(index) {
 				$(this).html(game.cards[index]);
-			})
-			game.clickHandlers();
-			game.timerFunction();
-			// $('#repeat-button').on('click', function() {
-			// 	restartAfterWin();
-			// });
+			});
+			$('#repeat-button').on('click', function() {
+				game.restartAfterWin();
+			});
 		},
 		// This lets the cards be clicked
 		clickHandlers: function() {
@@ -63,14 +63,16 @@ $(document).ready(function() {
 				game.activateOverlay();
 			}
 		},
-		// Sets the information to be displayed in a modal when the player has won
+		// Sets the information to be displayed in a modal when the player has won and displays it
 		activateOverlay: function() {
 			el = document.getElementById('overlay');
-			var starsGotten = $('ul.stars').html();
+			var starsGotten = '<ul class="stars">'+$('.stars').html()+'</ul>';
 			var timeToFinish = $('.values').text();
 			$('#p-win').html('You won with '+game.numberOfMoves+' moves!');
-			$('<div>You got <ul class=\'stars\'>'+starsGotten+'</ul> stars!</div>').insertBefore('#restart-button');
-			$('<div>In '+timeToFinish+'</div>').insertBefore('#restart-button');
+			if ($('.fa-star-o').length === 3) {
+				starsGotten = 'zero'
+			}
+			$('#stars-won').html('You got '+starsGotten+' stars in '+timeToFinish);
 			el.style.visibility = 'visible'
 			$('#restart-button').on('click', function() {
 				game.restartAfterWin();
@@ -110,21 +112,15 @@ $(document).ready(function() {
 			el = document.getElementById('overlay');
 			$('li.card').attr('class', 'card');
 			$('#first-star, #second-star, #third-star').attr('class', 'fa fa-star');
+			$('.moves').html(game.numberOfMoves = 0);
+			game.timer.stop();
+			$('.values').text('00:00:00');
+			game.shuffle(game.cards);
+			game.assignCards();
 			if (el.style.visibility == 'visible') {
 				el.style.visibility = 'hidden';
 			}
-			$('.moves').html(game.numberOfMoves = 0);
-			// $('.values').text('00:00:00');
 		}
 	};
 	game.init();
 });
-
-// TODO: Change variable declaration with const ?
-// TODO: Are these function expressions or declarations ?
-
-
-
-
-
-
