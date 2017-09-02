@@ -4,7 +4,7 @@ This is a simple memory game that has been created from a template provided by U
 
 ## Table of Contents
 
-* [Getting started](#gettingstarted)
+* <a href="#gettingstarted">Getting started</a>
 * [How to play](#howtoplay)
 
 <a id="#gettingstarted"></a>
