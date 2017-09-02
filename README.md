@@ -4,8 +4,8 @@ This is a simple memory game that has been created from a template provided by U
 
 ## Table of Contents
 
-* [Getting started](#getting started)
-* [How to play](#how to play)
+* [Getting started](#getting-started)
+* [How to play](#how-to-play)
 
 
 ## Getting started
