@@ -25,51 +25,35 @@ $(document).ready(function() {
 				array[currentIndex] = array[randomIndex];
 				array[randomIndex] = temporaryValue;
 			}
-			console.log('The cards got shuffled'); // <-------------------- REMOVE
 		},
 		// This function sets the cards back to their place
 		assignCards: function() {
-			console.log('assignCards function activated'); // <-------------------- REMOVE
 			$('li.card').each(function(index) {
 				$(this).html(game.cards[index]);
-				console.log('The cards got assigned'); // <-------------------- REMOVE
 			});
 		},
 		// This lets the cards be clicked
 		clickHandlers: function() {
-			console.log('The clickHandlers function activated'); // <-------------------- REMOVE
-			
-			$('li.card').on('click', function(event) {
-				
-				console.log('click from the clickHandlers function'); // <-------------------- REMOVE
-				console.log('THIS IS THE EVENT INFO: '+event.target); // <-------------------- REMOVE
-				
-				$(this).addClass('open show').removeClass('unselected');
-				$(event.target).off('click');
+			$('.deck').on('click','.unselected.clickable', function(event) {				
+				$(this).addClass('open show').removeClass('unselected clickable');
 				event.stopPropagation();
 				game.movesCount();
 				game.starsCount();
 				game.checkMatch();
 			});
 		},
-		// activateClickHandlers: function() {
-		// 	$('li.card').on('click');
-		// },
-
 		// Checks if the two cards selected match
 		checkMatch: function() {
 			if ($('li.open').length === 2) {
-				console.log('There are two .open cards'); // <-------------------- REMOVE
+				$('.unselected').removeClass('clickable');
 				if (($('li.open').first().html()) === ($('li.open').last().html())) {
-					console.log('Cards .open matched'); // <-------------------- REMOVE
 					$('li.open').addClass('match').removeClass('open show');
-					$('.match').off('click');
+					$('.unselected').addClass('clickable');
 					game.checkWin();
 				} else {
-					game.clickHandlers();
-					console.log('Cards .open did NOT match'); // <-------------------- REMOVE
 					setTimeout(function() {
-						$('li.open').removeClass('open show').addClass('unselected');
+						$('.unselected').addClass('clickable');
+						$('li.open').removeClass('open show').addClass('unselected clickable');
 					}, 700);
 				}
 			}
@@ -77,14 +61,12 @@ $(document).ready(function() {
 		//Checks if the player has matched all the cards
 		checkWin: function() {
 			if ($('li.match').length === 16) {
-				console.log('All .match cards are a total of 16'); // <-------------------- REMOVE
 				game.timer.stop();
 				game.activateOverlay();
 			}
 		},
 		// Sets the information to be displayed in a modal when the player has won and displays it
 		activateOverlay: function() {
-			console.log('activateOverlay function activated'); // <-------------------- REMOVE
 			el = document.getElementById('overlay');
 			var starsGotten = $('.fa-star').length;
 			var timeToFinish = $('.values').text();
@@ -95,7 +77,6 @@ $(document).ready(function() {
 		},
 		// Changes the stars according the the number of moves
 		starsCount: function() {
-			console.log('starsCount function activated'); // <-------------------- REMOVE
 			if (game.numberOfMoves === 26) {
 				$('#first-star').removeClass('fa-star').addClass('fa-star-o');
 			} else if (game.numberOfMoves === 32) {
@@ -104,15 +85,13 @@ $(document).ready(function() {
 		},
 		// Counts the number of moves done by the player
 		movesCount: function() {
-			console.log('movesCount function activated'); // <-------------------- REMOVE
 			game.numberOfMoves += 1
 			$('.moves').html(game.numberOfMoves);
 		},
 		// Manages the timer
 		timerFunction: function() { 
-			$('.deck').on('click', function () {
+			$('.deck').one('click','.unselected', function () {
 			    game.timer.start();
-			    $(this).off('click');
 			});
 			game.timer.addEventListener('secondsUpdated', function (e) {
 			    $('.chronometer .values').html(game.timer.getTimeValues().toString());
@@ -125,18 +104,15 @@ $(document).ready(function() {
 		repeatGame: function() {
 			$('#repeat-button').on('click', function() {
 				game.restartAfterWin();
-				console.log('Game got restarted from repeat-button'); // <-------------------- REMOVE
 			});
 			$('#restart-button').on('click', function() {
 				game.restartAfterWin();
 			});
 		},
-		
-
 		// Restarts the game
 		restartAfterWin: function() {
 			el = document.getElementById('overlay');
-			$('li.card').attr('class', 'card unselected');
+			$('li.card').attr('class', 'card unselected clickable');
 			$('#first-star, #second-star, #third-star').attr('class', 'fa fa-star');
 			$('.moves').html(game.numberOfMoves = 0);
 			game.timer.stop();
@@ -147,31 +123,7 @@ $(document).ready(function() {
 			if (el.style.visibility == 'visible') {
 				el.style.visibility = 'hidden';
 			}
-
-			// var clickHandler1 = $("li.card").data();
-			// console.log(clickHandler1);
-
-			var jqueryObject = $('li.card');
-			var rawDOMElement = jqueryObject.get(0);
-			var eventObject = $._data(rawDOMElement, 'events');
-
-			console.log(eventObject); // <-------------------- REMOVE
-			if (eventObject != undefined && eventObject.click != undefined) {
-				console.log('Passed the eventObject if statement'); // <-------------------- REMOVE
-				$('li.card').off('click');
-				game.clickHandlers();
-			}
-
-
 		}
 	};
 	game.init();
 });
-
-
-
-
-
-
-
-

@@ -1,11 +1,11 @@
 # Memory Game Project
 
-This is a simple memory game that has been created from a a template provided by Udacity.
+This is a simple memory game that has been created from a template provided by Udacity.
 
 ## Table of Contents
 
-* [Getting started](#gettingstarted)
-* [How to play](#howtoplay)
+* [Getting started](##gettingstarted)
+* [How to play](##howtoplay)
 
 ## Getting started
 
