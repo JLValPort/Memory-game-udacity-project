@@ -4,15 +4,14 @@ This is a simple memory game that has been created from a template provided by U
 
 ## Table of Contents
 
-* <a href="#gettingstarted">Getting started</a>
-* [How to play](#howtoplay)
+* [Getting started](#getting started)
+* [How to play](#how to play)
 
-<a id="#gettingstarted"></a>
+
 ## Getting started
 
 This game works with HTML, CSS and Javascript so in order for you to play it you have to open the index.html file in your favorite browser.
 
-<a id="#howtoplay"></a>
 ## How to play
 
 To play the game just click on the cards to uncover the back of the cards. If the two cards selected match, they will remain flipped until the player wins or the game is reset. Else if the two selected cards _do not_ match, they will flip back over to the original color and stop showing the image.
